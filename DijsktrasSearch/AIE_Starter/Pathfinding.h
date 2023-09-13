@@ -19,7 +19,7 @@ namespace AIForGames
     struct Node {
         Node(float x, float y);
         void ConnectTo(Node* other, float cost);
-        float Heuristic(Node* start, Node* end);
+        /*float Heuristic(Node* start, Node* end);*/
 
 
         glm::vec2 position;

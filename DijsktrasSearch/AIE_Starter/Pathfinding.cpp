@@ -115,6 +115,14 @@ void AIForGames::NodeMap::Draw()
 
 
 
+//float AIForGames::Node::Heuristic(Node* start, Node* end)
+//{
+//	double dx = start->position.x - end->position.x;
+//	double dy = start->position.y - end->position.y;
+//	return dx * dx + dy * dy;
+//}
+
+
 
 
 
@@ -169,8 +177,8 @@ std::vector<AIForGames::Node*> AIForGames::NodeMap::AStarSearch(Node* start, Nod
 			if (std::find(closedList.begin(), closedList.end(), currentNode->connections[i].target) == std::end(closedList)) {
 
 				float gscore = currentNode->gScore + currentNode->connections[i].cost;
-				float hscore = Heuristic(currentNode->connections[i]->target, end);
-				float fscore = gscore + hscore;
+				float hScore = glm::length(end->position - currentNode->position) / cellSize;
+				float fScore = gscore + hScore;
 
 
 				if (std::find(openList.begin(), openList.end(), currentNode->connections[i].target) != std::end(openList)) {
@@ -251,23 +259,6 @@ void AIForGames::Node::ConnectTo(Node* other, float cost)
 {
 	connections.push_back(Edge(other, cost));
 }
-
-float AIForGames::Node::Heuristic(Node* start, Node* end)
-{
-	// Function to calculate squared Cartesian distance between two nodes
-	/*double squaredDistance(const Node & node1, const Node & node2) {
-		double dx = node1.x - node2.x;
-		double dy = node1.y - node2.y;
-		return dx * dx + dy * dy;
-	}*/
-	//
-	//
-	
-	
-
-
-}
-
 
 
 
