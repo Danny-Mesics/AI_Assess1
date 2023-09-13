@@ -17,13 +17,16 @@ namespace AIForGames
     };
 
     struct Node {
-        glm::vec2 position;
-        std::vector<Edge> connections;
-
         Node(float x, float y);
         void ConnectTo(Node* other, float cost);
+        float Heuristic(Node* start, Node* end);
 
+
+        glm::vec2 position;
+        std::vector<Edge> connections;
         float gScore;
+        float hScore;
+        float fScore;
         Node* previous;
 
     };
@@ -46,7 +49,7 @@ namespace AIForGames
 
         void Draw();
 
-        std::vector<Node*> DijkstrasSearch(Node* start, Node* end);
+        std::vector<Node*> AStarSearch(Node* start, Node* end);
 
         void DrawPath();
 
