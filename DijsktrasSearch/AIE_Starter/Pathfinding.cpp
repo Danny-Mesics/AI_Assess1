@@ -1,7 +1,6 @@
 #include "Pathfinding.h"
 #include <iostream>
 #include "raylib.h"
-#include <math.h>
 #include <queue>
 
 void AIForGames::NodeMap::Initialise(std::vector<std::string> asciiMap, int cellSize)
@@ -58,7 +57,7 @@ void AIForGames::NodeMap::Initialise(std::vector<std::string> asciiMap, int cell
 		}
 	}
 
-	path = AStarSearch(GetNode(1, 1), GetNode(10, 2));
+	path = DijkstrasSearch(GetNode(1, 1), GetNode(10, 2));
 
 }
 
@@ -126,7 +125,7 @@ void AIForGames::NodeMap::Draw()
 
 
 
-std::vector<AIForGames::Node*> AIForGames::NodeMap::AStarSearch(Node* start, Node* end)
+std::vector<AIForGames::Node*> AIForGames::NodeMap::DijkstrasSearch(Node* start, Node* end)
 {
 	std::vector<Node*> path;
 	if (start == nullptr || end == nullptr) {
@@ -153,8 +152,8 @@ std::vector<AIForGames::Node*> AIForGames::NodeMap::AStarSearch(Node* start, Nod
 	openList.push_back(start);
 
 	while (!openList.empty()) {
-		// Lambda function to sort priority queue by fScore
-		auto comp = [&](Node* a, Node* b) {return a->fScore > b->fScore; };
+		// Lambda function to sort priority queue by gScore
+		auto comp = [&](Node* a, Node* b) {return a->gScore > b->gScore; };
 		std::sort(openList.begin(), openList.end(), comp);
 		
 		// Assign the next node in the open list to be our current node
@@ -166,19 +165,18 @@ std::vector<AIForGames::Node*> AIForGames::NodeMap::AStarSearch(Node* start, Nod
 		// Adds the currentNode to the closed list so we don't process again
 		closedList.push_back(currentNode);
 
-		// Early out for finding the end node
-		if (currentNode == end) {
-			break;
-		}
-
 
 		for (int i = 0; i < currentNode->connections.size(); i++) {
 
 			if (std::find(closedList.begin(), closedList.end(), currentNode->connections[i].target) == std::end(closedList)) {
 
 				float gscore = currentNode->gScore + currentNode->connections[i].cost;
+<<<<<<< HEAD
 				float hScore = glm::length(end->position - currentNode->position) / cellSize;
 				float fScore = gscore + hScore;
+=======
+
+>>>>>>> parent of 6c66b1d (starting a heuristic)
 
 
 				if (std::find(openList.begin(), openList.end(), currentNode->connections[i].target) != std::end(openList)) {
@@ -260,6 +258,10 @@ void AIForGames::Node::ConnectTo(Node* other, float cost)
 	connections.push_back(Edge(other, cost));
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 6c66b1d (starting a heuristic)
 
 
 
