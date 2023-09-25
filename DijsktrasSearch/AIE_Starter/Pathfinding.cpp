@@ -160,11 +160,9 @@ std::vector<AIForGames::Node*> AIForGames::NodeMap::DijkstrasSearch(Node* start,
 
 		for (int i = 0; i < currentNode->connections.size(); i++) {
 
-			if (std::find(closedList.begin(), closedList.end(), currentNode->connections[i].target) == std::end(closedList)) {
-
+			if (std::find(closedList.begin(), closedList.end(), currentNode->connections[i].target) == std::end(closedList)) 
+			{
 				float gscore = currentNode->gScore + currentNode->connections[i].cost;
-
-
 
 				if (std::find(openList.begin(), openList.end(), currentNode->connections[i].target) != std::end(openList)) {
 					// Node is already in the open list with a valid score
