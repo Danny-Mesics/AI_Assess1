@@ -57,7 +57,7 @@ void AIForGames::NodeMap::Initialise(std::vector<std::string> asciiMap, int cell
 		}
 	}
 
-	path = DijkstrasSearch(GetNode(1, 1), GetNode(10, 2));
+	path = AStarSearch(GetNode(1, 1), GetNode(10, 2));
 
 }
 
@@ -117,7 +117,7 @@ void AIForGames::NodeMap::Draw()
 
 
 
-std::vector<AIForGames::Node*> AIForGames::NodeMap::DijkstrasSearch(Node* start, Node* end)
+std::vector<AIForGames::Node*> AIForGames::NodeMap::AStarSearch(Node* start, Node* end)
 {
 	std::vector<Node*> path;
 	if (start == nullptr || end == nullptr) {
@@ -134,6 +134,8 @@ std::vector<AIForGames::Node*> AIForGames::NodeMap::DijkstrasSearch(Node* start,
 		if (nodes[i] != nullptr) {
 			nodes[i]->previous = nullptr;
 			nodes[i]->gScore = 0;
+			nodes[i]->hScore = 0;
+			nodes[i]->fScore = 0;
 		}
 	}
 	
@@ -145,7 +147,7 @@ std::vector<AIForGames::Node*> AIForGames::NodeMap::DijkstrasSearch(Node* start,
 
 	while (!openList.empty()) {
 		// Lambda function to sort priority queue by gScore
-		auto comp = [&](Node* a, Node* b) {return a->gScore > b->gScore; };
+		auto comp = [&](Node* a, Node* b) {return a->fScore > b->fScore; };
 		std::sort(openList.begin(), openList.end(), comp);
 		
 		// Assign the next node in the open list to be our current node
@@ -162,19 +164,23 @@ std::vector<AIForGames::Node*> AIForGames::NodeMap::DijkstrasSearch(Node* start,
 
 			if (std::find(closedList.begin(), closedList.end(), currentNode->connections[i].target) == std::end(closedList)) 
 			{
-				float gscore = currentNode->gScore + currentNode->connections[i].cost;
+				currentNode->connections[i].target->gScore = currentNode->gScore + currentNode->connections[i].cost;
+				currentNode->connections[i].target->hScore = Heuristic(currentNode->connections[i].target, end);
+				currentNode->connections[i].target->fScore = currentNode->connections[i].target->gScore + currentNode->connections[i].target->hScore;
 
 				if (std::find(openList.begin(), openList.end(), currentNode->connections[i].target) != std::end(openList)) {
 					// Node is already in the open list with a valid score
-					// so we need to compare the calculated score with the existing scre
+					// so we need to compare the calculated score with the existing score
 					// to find the shorter path
-					if (gscore < currentNode->connections[i].target->gScore) {
-						currentNode->connections[i].target->gScore = gscore;
+					if (currentNode->fScore < currentNode->connections[i].target->fScore) {
+						currentNode->connections[i].target->gScore = currentNode->gScore;
+						currentNode->connections[i].target->fScore = currentNode->fScore;
 						currentNode->connections[i].target->previous = currentNode;
+						
 					}
 				}
 				else {
-					currentNode->connections[i].target->gScore = gscore;
+					currentNode->connections[i].target->gScore = currentNode->gScore;
 					currentNode->connections[i].target->previous = currentNode;
 					openList.push_back(currentNode->connections[i].target);
 				}
@@ -187,11 +193,16 @@ std::vector<AIForGames::Node*> AIForGames::NodeMap::DijkstrasSearch(Node* start,
 		path.push_back(currentNode);
 		currentNode = currentNode->previous;
 	}
-	std::reverse(path.begin(), path.end());
 	return path;
-
-
 }
+
+
+float AIForGames::NodeMap::Heuristic(Node* currentNode, Node* end)
+{
+	float result = sqrt(pow((currentNode->position.x - end->position.x), 2) + pow((currentNode->position.y - end->position.y), 2));
+	return result;
+}
+
 
 void AIForGames::NodeMap::DrawPath()
 {

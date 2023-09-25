@@ -24,6 +24,8 @@ namespace AIForGames
         void ConnectTo(Node* other, float cost);
 
         float gScore;
+        float hScore;
+        float fScore;
         Node* previous;
 
     };
@@ -46,7 +48,9 @@ namespace AIForGames
 
         void Draw();
 
-        std::vector<Node*> DijkstrasSearch(Node* start, Node* end);
+        std::vector<Node*> AStarSearch(Node* start, Node* end);
+
+        float Heuristic(Node* currentNode, Node* end);
 
         void DrawPath();
 
