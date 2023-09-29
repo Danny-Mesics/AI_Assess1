@@ -20,25 +20,25 @@ int main(int argc, char* argv[])
     //--------------------------------------------------------------------------------------
     std::vector<std::string> asciiMap;
     asciiMap.push_back("0000000000000000000000");
-    asciiMap.push_back("0111111111111111111110");
-    asciiMap.push_back("0111111111111111111110");
-    asciiMap.push_back("0111111111111111111110");
-    asciiMap.push_back("0111111111111111111110");
-    asciiMap.push_back("0111111111111111111110");
-    asciiMap.push_back("0111111111111111111110");
-    asciiMap.push_back("0111111111111111111110");
-    asciiMap.push_back("0111111111111111111110");
-    asciiMap.push_back("0111111111111111111110");
-    asciiMap.push_back("0111111111111111111110");
-    asciiMap.push_back("0111111111111111111110");
-    asciiMap.push_back("0111111111111111111110");
+    asciiMap.push_back("0111111111110001111110");
+    asciiMap.push_back("0111011011010111001010");
+    asciiMap.push_back("0101111001011100111010");
+    asciiMap.push_back("0110011011100100001010");
+    asciiMap.push_back("0111111011011111101010");
+    asciiMap.push_back("0101001011110100111110");
+    asciiMap.push_back("0101111011110110000010");
+    asciiMap.push_back("0101111111111111110010");
+    asciiMap.push_back("0100111100110111010110");
+    asciiMap.push_back("0111101111110111011110");
+    asciiMap.push_back("0101101100001111100110");
+    asciiMap.push_back("0111001111111111111110");
     asciiMap.push_back("0000000000000000000000");
 
     NodeMap nodeMap;
     nodeMap.Initialise(asciiMap, 50);
 
     Node* start = nodeMap.GetNode(1, 1);
-    Node* end = nodeMap.GetNode(10, 2);
+    Node* end = nodeMap.GetNode(20, 12);
     nodeMap.path = nodeMap.AStarSearch(start, end);
 
 
