@@ -109,7 +109,6 @@ void AIForGames::NodeMap::Draw()
 	DrawRectangle((int)(path[0]->position.x - (cellSize / 2)), (int)(path[0]->position.y - (cellSize / 2)), (int)(cellSize - 1), (int)(cellSize - 1), firstBoxColor);
 
 	DrawRectangle((int)(path[path.size()-1]->position.x - (cellSize / 2)), (int)(path[path.size() - 1]->position.y - (cellSize / 2)), (int)(cellSize - 1), (int)(cellSize - 1), GRAY);
-
 }
 
 
